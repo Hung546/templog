@@ -17,3 +17,17 @@ make build
 ```bash
 make flash
 ```
+
+## Web
+- To run both web and server
+```bash
+make app
+```
+- Or run every single one
+```bash
+make web
+```
+or
+```bash
+make server
+```
