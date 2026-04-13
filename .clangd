@@ -1,4 +1,7 @@
 CompileFlags:
+  Add:
+    - "-nodefaultlibs"
+    - "-nostdinc"
   Remove:
     - "-fstrict-volatile-bitfields"
     - "-fno-tree-switch-conversion"
@@ -6,5 +9,8 @@ CompileFlags:
     - "-fno-malloc-dce"
     - "-fzero-init-padding-bits=all"
     - "-mlongcalls"
+
 Diagnostics:
   UnusedIncludes: None
+
+CompilationDatabase: "build"
