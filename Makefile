@@ -1,7 +1,7 @@
 .PHONY: build flash
 
 build:
-	@idf.py build
+	@cd firmware/ && idf.py build
 
 flash:
-	@idf.py flash
+	@cd firmware/ && idf.py flash
