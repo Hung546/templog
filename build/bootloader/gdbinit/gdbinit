@@ -1,0 +1,2 @@
+source /home/hung/templogger/build/bootloader/gdbinit/symbols
+source /home/hung/templogger/build/bootloader/gdbinit/connect

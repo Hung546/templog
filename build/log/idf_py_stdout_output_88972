@@ -1,0 +1,18 @@
+Command: ninja all
+[1/9] Performing build step for 'bootloader'
+[1/1] cd /home/hung/templogger/build/bootloader/esp-idf/esptool_py && /home/hung/.espressif/tools/python/v5.5.1/venv/bin/python /home/hung/.espressif/v5.5.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 /home/hung/templogger/build/bootloader/bootloader.bin
+Bootloader binary size 0x6680 bytes. 0x980 bytes (8%) free.
+[2/9] No install step for 'bootloader'
+[3/9] Completed 'bootloader'
+[4/9] Building C object esp-idf/oledi2c/CMakeFiles/__idf_oledi2c.dir/oledi2c.c.obj
+[5/9] Linking C static library esp-idf/oledi2c/liboledi2c.a
+[6/9] Generating esp-idf/esp_system/ld/sections.ld
+[7/9] Linking CXX executable templogger.elf
+[8/9] Generating binary image from built executable
+esptool.py v4.12.dev1
+Creating esp32 image...
+Merged 2 ELF sections
+Successfully created esp32 image.
+Generated /home/hung/templogger/build/templogger.bin
+[9/9] cd /home/hung/templogger/build/esp-idf/esptool_py && /home/hung/.espressif/tools/python/v5.5.1/venv/bin/python /home/hung/.espressif/v5.5.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /home/hung/templogger/build/partition_table/partition-table.bin /home/hung/templogger/build/templogger.bin
+templogger.bin binary size 0x35410 bytes. Smallest app partition is 0x100000 bytes. 0xcabf0 bytes (79%) free.
