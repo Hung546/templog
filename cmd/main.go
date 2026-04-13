@@ -1,0 +1,51 @@
+package main
+
+import (
+	"log"
+
+	"github.com/gofiber/contrib/v3/websocket"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
+	"github.com/gofiber/fiber/v3/middleware/logger"
+	"github.com/versenilvis/templog-monitoring/internal/hub"
+	"github.com/versenilvis/templog-monitoring/internal/sensor"
+)
+
+func main() {
+	h := hub.New(60)
+
+	go sensor.Faker(h)
+
+	app := fiber.New(fiber.Config{
+		AppName: "templog",
+	})
+
+	app.Use(logger.New())
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+	}))
+
+	app.Use("/ws", func(c fiber.Ctx) error {
+		if websocket.IsWebSocketUpgrade(c) {
+			return c.Next()
+		}
+		return fiber.ErrUpgradeRequired
+	})
+
+	app.Get("/ws", websocket.New(func(c *websocket.Conn) {
+		h.Register(c)
+		defer h.Unregister(c)
+
+		for {
+			if _, _, err := c.ReadMessage(); err != nil {
+				break
+			}
+		}
+	}))
+
+	app.Get("/health", func(c fiber.Ctx) error {
+		return c.JSON(fiber.Map{"status": "ok"})
+	})
+
+	log.Fatal(app.Listen(":8080"))
+}
