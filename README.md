@@ -10,21 +10,10 @@ E.g.
 ```
 ## Build
 ```bash
-idf.py build
-```
-
-or
-
-```bash
 make build
 ```
 
 ## Flash
-```bash
-idf.py flash
-```
-or
-
 ```bash
 make flash
 ```
