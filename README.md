@@ -1,4 +1,12 @@
-# Dependencies
+# Templog-monitoring
+A real-time monitoring dashboard using a Go (Fiber v3) server, connected via WebSockets and UART for an ESP32-based temperature and humidity display on a LED screen
+
+> UIT-CE103 project
+
+## Dependencies
+- [Bun](https://bun.com/)
+- [Golang](https://go.dev/)
+- Makefile
 - [EIM](https://docs.espressif.com/projects/idf-im-ui/en/latest/)
 - [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/v3.1.5/get-started/linux-setup.html)
 <br>
@@ -6,7 +14,20 @@
 
 E.g.
 ```bash
-    alias idf="source /opt/esp-idf/export.sh"
+alias idf="source /opt/esp-idf/export.sh"
+```
+
+- Install all necessary packages for Go server
+```bash
+go mod tidy
+```
+or
+```bash
+make pkg
+```
+- Install all necessary packages for website
+```bash
+cd web/ && bun i
 ```
 ## Build
 ```bash
