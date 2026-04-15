@@ -35,6 +35,7 @@ import (
 	"bufio"
 	"fmt"
 	"log"
+    "time"
 	"strings"
 
 	"go.bug.st/serial"
