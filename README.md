@@ -32,6 +32,10 @@ make setup
 ```bash
 make build
 ```
+- Don't forget to give the USB port permissions
+```bash
+chmod +x 666 /dev/ttyUSB0
+```
 - Then, flash the firmware (you only need to do this once)
 ```bash
 make flash
