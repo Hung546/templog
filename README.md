@@ -17,38 +17,31 @@ E.g.
 alias idf="source /opt/esp-idf/export.sh"
 ```
 
-- Install all necessary packages for Go server
+- Install all necessary packages
 ```bash
-go mod tidy
+make setup
 ```
-or
-```bash
-make pkg
-```
-- Install all necessary packages for website
-```bash
-cd web/ && bun i
-```
-## Build
+
+## How to run
+>[!IMPORTANT]
+> Make sure you have the ESP32 connected to your computer via USB
+
+<br>
+
+- First, build the firmware
 ```bash
 make build
 ```
-
-## Flash
+- Then, flash the firmware (you only need to do this once)
 ```bash
 make flash
 ```
-
-## Web
+- Then you need to monitor it via ESP-IDP (you only need to do this once)
+```bash
+make monitor
+```
+## Monitoring via the web
 - To run both web and server
 ```bash
 make app
-```
-- Or run every single one
-```bash
-make web
-```
-or
-```bash
-make server
 ```
