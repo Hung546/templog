@@ -1,10 +1,13 @@
-.PHONY: build flash server dev pkg web app setup
+.PHONY: build flash server dev pkg web app setup monitor
 
 build:
 	@cd firmware/ && idf.py build
 
 flash:
 	@cd firmware/ && idf.py flash
+
+monitor:
+	@cd firmware/ && idf.py monitor
 
 server:
 	@go run ./cmd/main.go
