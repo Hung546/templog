@@ -5,10 +5,12 @@ go 1.26.2
 require (
 	github.com/gofiber/contrib/v3/websocket v1.1.0
 	github.com/gofiber/fiber/v3 v3.1.0
+	go.bug.st/serial v1.6.4
 )
 
 require (
 	github.com/andybalholm/brotli v1.2.0 // indirect
+	github.com/creack/goselect v0.1.2 // indirect
 	github.com/fasthttp/websocket v1.5.12 // indirect
 	github.com/gofiber/schema v1.7.0 // indirect
 	github.com/gofiber/utils/v2 v2.0.2 // indirect

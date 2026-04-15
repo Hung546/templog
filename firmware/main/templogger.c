@@ -112,6 +112,7 @@ void sensor_display_task(void *pvParameters) {
     }
 
     vTaskDelay(pdMS_TO_TICKS(1000));
+    printf("DATA:%.2f,%.2f\n", temp, hum);
   }
 }
 

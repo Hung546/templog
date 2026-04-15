@@ -14,7 +14,7 @@ import (
 func main() {
 	h := hub.New(60)
 
-	go sensor.Faker(h)
+	go sensor.ReadSerial(h, "/dev/ttyUSB0")
 
 	app := fiber.New(fiber.Config{
 		AppName: "templog",
