@@ -20,9 +20,10 @@
 static const char *TAG = "TEMP_LOG"; // Tên thẻ để lọc log trong Terminal
 
 // 1. CẤU HÌNH THÔNG SỐ
+// phần tên mạng này có thể tự code
+// detect hoặc đọc file, ở đây hardcode cho nhanh
 #define WIFI_SSID "UIT Public"
 #define WIFI_PASS ""
-#define SERVER_HOST "lenovo-slim-3" // Tên máy tính (Hostname) để mDNS đi tìm
 
 #define I2C_MASTER_SCL_IO 22      // Chân SCL nối vào GPIO 22
 #define I2C_MASTER_SDA_IO 21      // Chân SDA nối vào GPIO 21
@@ -61,45 +62,36 @@ const uint8_t icon_hum_32x32[128] = {
 // Handler để điều khiển MQTT
 esp_mqtt_client_handle_t mqtt_client = NULL;
 
-// 3. MODULE MẠNG (WIFI -> MDNS -> MQTT)
-/**
- * @brief mDNS:ESP32 hét lên "Ai là TEN_HOST_LAPTOP ?"
- */
+// không hardcode broker để có thể tìm broker từ mạng
+// nhớ setup avahi trên như trong docs , không thì ESP32 query không ra gì hết
 static void resolve_server_and_start_mqtt() {
-    struct esp_ip4_addr addr;
-    addr.addr = 0; // Khởi tạo biến chứa địa chỉ IP tìm được
+    mdns_result_t *results = NULL;
 
-    ESP_LOGI(TAG, "Đang tìm %s.local...", SERVER_HOST);
+    ESP_LOGI(TAG, "Đang tìm MQTT broker trên mạng...");
 
-    // Gửi gói tin mDNS đi tìm IP của Hostname trong n ms ví dụ ở đây là 3000ms
-    // tức 3 giây
-    esp_err_t err = mdns_query_a(SERVER_HOST, 3000, &addr);
+    esp_err_t err = mdns_query_ptr("_mqtt", "_tcp", 3000, 1, &results);
 
-    if (err == ESP_OK) { // Nếu tìm thấy Laptop
-        char ip_str[16];
-        sprintf(ip_str, IPSTR,
-                IP2STR(&addr)); // Chuyển số IP sang chuỗi "192.168.x.x"
-        ESP_LOGI(TAG, "Đã thấy Server tại: %s", ip_str);
-
-        // Tạo chuỗi URI kết nối: ví dụ "mqtt://192.168.1.15:1883"
-        char uri[64];
-        sprintf(uri, "mqtt://%s:1883", ip_str);
-
-        // Cấu hình MQTT với địa chỉ vừa tìm được
-        esp_mqtt_client_config_t mqtt_cfg = {
-            .broker.address.uri = uri,
-        };
-
-        // Khởi tạo và bắt đầu chạy Client MQTT (nó sẽ chạy ngầm dưới dạng 1
-        // Task)
-        mqtt_client = esp_mqtt_client_init(&mqtt_cfg);
-        esp_mqtt_client_start(mqtt_client);
-    } else {
-        ESP_LOGE(TAG, "Không tìm thấy laptop! Kiểm tra xem máy tính có đang "
-                      "bật mDNS không.");
+    if (err != ESP_OK || results == NULL) {
+        ESP_LOGE(TAG, "Không tìm thấy MQTT broker nào trên mạng!");
+        return;
     }
-}
 
+    char ip_str[16];
+    sprintf(ip_str, IPSTR, IP2STR(&results->addr->addr.u_addr.ip4));
+    ESP_LOGI(TAG, "Tìm thấy broker tại: %s", ip_str);
+
+    char uri[64];
+    sprintf(uri, "mqtt://%s:1883", ip_str);
+
+    esp_mqtt_client_config_t mqtt_cfg = {
+        .broker.address.uri = uri,
+    };
+
+    mqtt_client = esp_mqtt_client_init(&mqtt_cfg);
+    esp_mqtt_client_start(mqtt_client);
+
+    mdns_query_results_free(results);
+}
 /**
  * @brief Handler: Hàm này tự động được gọi mỗi khi có "event" về WiFi/IP
  */
