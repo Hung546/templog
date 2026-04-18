@@ -1,7 +1,10 @@
-# Templog-monitoring
-A real-time monitoring dashboard using a Go (Fiber v3) server, connected via WebSockets and UART for an ESP32-based temperature and humidity display on a LED screen
-
-> UIT-CE103 project
+<div align="center">
+  <img width=10% alt="ce" src="https://github.com/user-attachments/assets/b98ff0ac-1f45-4ff7-aa04-ab652528cbdd" />
+  <h1>Templog-monitoring</h1>
+  <p><b>A real-time temperature and humidity monitor ESP32 over MQTT, Go backend, WebSocket frontend</b></p>
+  <p><a href="#installation"><strong>Installation »</strong></a></p>
+  <img src="https://camo.githubusercontent.com/b16ecdcac9c3d21ec3a49459430f747b46b3a37acc95ee468d87d0ec61ff2392/68747470733a2f2f692e696d6775722e636f6d2f576d4d6e5352742e706e67">
+</div>
 
 ## Under the hood
 The ESP32 boots and connects to WiFi. It then uses mDNS to discover any _mqtt._tcp service on the local network, so no hardcoded hostname is needed. Once it finds the broker, it connects and publishes `{"temp": xx.xx, "hum": xx.xx}` to the topic room/sensor/data every 2 seconds
@@ -22,6 +25,7 @@ E.g.
 alias idf="source /opt/esp-idf/export.sh"
 ```
 
+## Installation
 > [!WARNING]
 > I'm using Arch Linux, so my commands will use `pacman`, it won't work the same as your distro  
 > If you use another distro, remember to change the command to your distro's package manager
@@ -115,3 +119,7 @@ make monitor
 ```bash
 make app
 ```
+
+<div align="center">
+  
+</div>
