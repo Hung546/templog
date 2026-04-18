@@ -6,6 +6,12 @@
   <img src="https://camo.githubusercontent.com/b16ecdcac9c3d21ec3a49459430f747b46b3a37acc95ee468d87d0ec61ff2392/68747470733a2f2f692e696d6775722e636f6d2f576d4d6e5352742e706e67">
 </div>
 
+>[!IMPORTANT]
+> This branch uses WiFi and MQTT. ESP32 has built-in WiFi, no extra hardware needed  
+> Switch to the main branch if you prefer the USB/UART version
+
+*(switch to [`firmware-usb`](https://github.com/versenilvis/templog-monitoring/tree/firmware-usb) branch for quicker approach)*
+
 ## Under the hood
 The ESP32 boots and connects to WiFi. It then uses mDNS to discover any _mqtt._tcp service on the local network, so no hardcoded hostname is needed. Once it finds the broker, it connects and publishes `{"temp": xx.xx, "hum": xx.xx}` to the topic room/sensor/data every 2 seconds
 
@@ -17,8 +23,10 @@ The Go server subscribes to that topic, parses the JSON payload, and broadcasts 
 - Makefile
 - [EIM](https://docs.espressif.com/projects/idf-im-ui/en/latest/)
 - [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/v3.1.5/get-started/linux-setup.html)
-<br>
-- After installing ESP-IDF, you should make an alias for it in your shell config file. Because if you source it everytime you open a new terminal, it will take a short time to load it
+
+> [!NOTE]
+> After installing ESP-IDF, you should make an alias for it in your shell config file  
+> Because if you source it everytime you open a new terminal, it will take a short time to load it
 
 E.g.
 ```bash
@@ -70,12 +78,6 @@ Open file: `sudo nano /etc/avahi/services/mqtt.service`
 sudo systemctl start mosquitto
 sudo systemctl start avahi-daemon
 ```
-Or to auto-start on boot:
-
-```bash
-sudo systemctl enable mosquitto
-sudo systemctl enable avahi-daemon
-```
 
 - Check
 
@@ -90,6 +92,7 @@ Expected:
 ```
 + wlp1s0 IPv4 MQTT Broker _mqtt._tcp local
 ```
+
 ## How to run
 
 <br>
@@ -97,14 +100,6 @@ Expected:
 - First, build the firmware
 ```bash
 make build
-```
->[!IMPORTANT]
-> If you run on usb version, don't forget to give the USB port permissions  
-> If no, then you don't need this
-
-*(switch to `firmware-usb` branch for quicker approach)*
-```bash
-chmod +x 666 /dev/ttyUSB0
 ```
 - Then, flash the firmware (you only need to do this once)
 ```bash
