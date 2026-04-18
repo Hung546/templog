@@ -11,13 +11,13 @@ import (
 	"go.bug.st/serial"
 )
 
-func ReadSerial(h *hub.Hub, portName string) {
+func ReadUart(h *hub.Hub, portName string) {
 	mode := &serial.Mode{
 		BaudRate: 115200,
 	}
 	port, err := serial.Open(portName, mode)
 	if err != nil {
-		log.Fatal("Cannot open Serial port: ", err)
+		log.Fatal("Cannot open UART serial port: ", err)
 	}
 
 	scanner := bufio.NewScanner(port)

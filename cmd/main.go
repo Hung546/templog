@@ -15,8 +15,8 @@ func main() {
 	h := hub.New(60)
 
 	// usb port version
-	// go sensor.ReadSerial(h, "/dev/ttyUSB0")
-	
+	// go sensor.ReadUart(h, "/dev/ttyUSB0")
+
 	// wifi version
 	go sensor.ReadMQTT(h)
 
