@@ -1,41 +1,40 @@
 # Backend Server
 
-The backend is built with **Go** using the **Fiber v3** web framework. It handles real-time data broadcasting and historical data persistence via WebSockets.
+The backend is built with **Go** and **Fiber v3**. It acts as an MQTT subscriber and a WebSocket broadcaster.
 
-## Tech Stack
-- **Framework**: [Fiber v3](https://docs.gofiber.io/)
-- **WebSocket**: [Fiber Contrib WebSocket](https://github.com/gofiber/contrib)
-- **Runtime**: Go 1.26+
+## Infrastructure Requirements
+The server expects the following services to be running on the host machine:
+- **Mosquitto**: MQTT Broker listening on port 1883.
+- **Avahi (mDNS)**: Advertises the `_mqtt._tcp` service so the ESP32 can find the server automatically.
 
 ## Core Modules
 
-### 1. The Hub (`internal/hub`)
-The `Hub` manages all active WebSocket connections and maintains a sliding window of historical data.
-- **Persistence**: Stores the last 60 sensor readings in memory.
-- **Broadcast**: When new data arrives, it:
-  1. Updates the internal history slice.
-  2. Prints the value to the server console.
-  3. JSON marshals the data and sends it to all connected clients.
-- **Registration**: When a new client connects, the Hub immediately sends the current history slice before starting live updates.
+### 1. MQTT Subscriber (`internal/sensor/mqtt.go`)
+- **Connection**: Connects to `tcp://localhost:1883`.
+- **Subscription**: Listens to the topic `room/sensor/data`.
+- **Parsing**: Unmarshals the incoming JSON (`temp`, `hum`) and converts it to the internal `SensorData` structure.
+- **Integration**: Calls `h.Broadcast(data)` to push measurements to the frontend.
 
-### 2. Sensor Simulation (`internal/sensor`)
-Currently, the server uses a `Faker` sensor module to simulate SHT30 readings:
-- Uses sinusoidal functions with random noise to mimic realistic environmental drift.
-- Broadcasts updates every 1 second.
-- **TODO**: Replace with a real Serial/UART reader to consume data from the physical ESP32.
+### 2. The Hub (`internal/hub/hub.go`)
+- **WebSocket Management**: Handles browser connections.
+- **Persistence**: Maintains a 60-point sliding window of sensor data in RAM.
+- **Sync**: When a new browser tab opens, the Hub immediately sends the 60-second history so the chart isn't empty.
 
-### 3. API Routes
-- `GET /health`: Basic health check returning `{"status":"ok"}`.
-- `GET /ws`: WebSocket endpoint. Upgrades HTTP connections to persistent WebSocket tunnels.
+### 3. Web Framework (Fiber v3)
+- **CORS**: Configured to allow connections from the Svelte dev server.
+- **WebSocket Upgrade**: Handles the transition from HTTP to WS protocols.
 
-## Data Persistence Strategy
-To prevent the frontend chart from clearing on page reloads:
-1. The server maintains a `[]SensorData` slice.
-2. The initial Message Type `history` is sent to the client upon connection.
-3. Subsequent updates use the Type `live`.
-
-## Running the Server
+## Linux Setup (Arch Linux Example)
 ```bash
-make server  # Runs the Go backend
-make app     # Runs both backend and Svelte frontend
+# Install services
+sudo pacman -S mosquitto avahi
+
+# Start services
+sudo systemctl start mosquitto avahi-daemon
+```
+
+## Running the Backend
+```bash
+make server  # Runs only the Go server
+make app     # Runs both Go server and Svelte frontend using Bun
 ```
