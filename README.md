@@ -32,10 +32,15 @@ alias idf="source /opt/esp-idf/export.sh"
 ```
 
 ## Installation
+- Simply run [`./scripts/setup.sh`](./scripts/setup.sh) with this command:
+```bash
+make setup
+```
 > [!WARNING]
-> I'm using Arch Linux, so my commands will use `pacman`, it won't work the same as your distro  
+> **This script is Linux, macOS or Windows WSL2 only. If you are using Windows, please read the script and convert to Windows powershell syntax to install and configure manually**  
+> Currently only support `pacman`, `apt`, `dnf`  
 > If you use another distro, remember to change the command to your distro's package manager
-
+<!--
 - Install all necessary packages
 ```bash
 make setup
@@ -90,7 +95,7 @@ Expected:
 ```
 + wlp1s0 IPv4 MQTT Broker _mqtt._tcp local
 ```
-
+-->
 ## How to run
 
 <br>
