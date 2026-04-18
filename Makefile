@@ -23,4 +23,4 @@ pkg:
 	@go mod tidy
 
 setup:
-	@go mod tidy && cd web/ && bun i
+	@chmod +x scripts/setup.sh && bash scripts/setup.sh
