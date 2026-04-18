@@ -18,7 +18,7 @@ The Go server subscribes to that topic, parses the JSON payload, and broadcasts 
 ## Dependencies
 - [Bun](https://bun.com/)
 - [Golang](https://go.dev/)
-- Makefile
+- [Make](https://www.gnu.org/software/make/) (for Makefile)
 - [EIM](https://docs.espressif.com/projects/idf-im-ui/en/latest/)
 - [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/v3.1.5/get-started/linux-setup.html)
 
@@ -32,12 +32,16 @@ alias idf="source /opt/esp-idf/export.sh"
 ```
 
 ## Installation
-- Simply run [`./scripts/setup.sh`](./scripts/setup.sh) with this command:
+- Simply run [`./scripts/setup.sh`](./scripts/setup.sh) with this command if you already have Make:
 ```bash
 make setup
 ```
+Or run this if you've not installed it yet:
+```bash
+chmod +x scripts/setup.sh && bash scripts/setup.sh
+```
 > [!WARNING]
-> **This script is Linux, macOS or Windows WSL2 only. If you are using Windows, please read the script and convert to Windows powershell syntax to install and configure manually**  
+> **This script is Linux, macOS or Windows WSL2 only. If you want to run on native Windows, please read the script and convert to Windows powershell syntax to install and configure manually**  
 > Currently only support `pacman`, `apt`, `dnf`  
 > If you use another distro, remember to change the command to your distro's package manager
 <!--
