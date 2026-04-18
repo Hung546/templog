@@ -1,0 +1,18 @@
+CompileFlags:
+  Add:
+    - "--query-driver=/**/xtensa-esp32-elf-gcc*"
+    - "-mlongcalls"
+    - "-I${EXTRAS}/include" 
+  Remove:
+    - "-fstrict-volatile-bitfields"
+    - "-fno-tree-switch-conversion"
+    - "-fno-shrink-wrap"
+    - "-fno-malloc-dce"
+    - "-fzero-init-padding-bits=all"
+    - "-mfix-esp32-erratum-30"
+    - "-fno-caller-saves"
+
+Diagnostics:
+  UnusedIncludes: None 
+
+CompilationDatabase: "."
