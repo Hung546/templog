@@ -11,7 +11,7 @@
 > Switch to the [`firmware-usb`](https://github.com/versenilvis/templog-monitoring/tree/firmware-usb) branch if you prefer the USB/UART version
 
 ## Under the hood
-The ESP32 boots and connects to WiFi. It then uses mDNS to discover any _mqtt._tcp service on the local network, so no hardcoded hostname is needed. Once it finds the broker, it connects and publishes `{"temp": xx.xx, "hum": xx.xx}` to the topic room/sensor/data every 2 seconds
+The ESP32 boots and connects to WiFi. It then uses mDNS to discover any `_mqtt._tcp` service on the local network, so no hardcoded hostname is needed. Once it finds the broker, it connects and publishes `{"temp": xx.xx, "hum": xx.xx}` to the topic room/sensor/data every 2 seconds
 
 The Go server subscribes to that topic, parses the JSON payload, and broadcasts the data over WebSocket to the frontend
 
