@@ -101,9 +101,6 @@ Expected:
 ```
 -->
 ## How to run
-
-<br>
-
 - First, build the firmware
 ```bash
 make build
