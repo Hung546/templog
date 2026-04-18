@@ -8,9 +8,7 @@
 
 >[!IMPORTANT]
 > This branch uses WiFi and MQTT. ESP32 has built-in WiFi, no extra hardware needed  
-> Switch to the main branch if you prefer the USB/UART version
-
-*(switch to [`firmware-usb`](https://github.com/versenilvis/templog-monitoring/tree/firmware-usb) branch for quicker approach)*
+> Switch to the [`firmware-usb`](https://github.com/versenilvis/templog-monitoring/tree/firmware-usb) branch if you prefer the USB/UART version
 
 ## Under the hood
 The ESP32 boots and connects to WiFi. It then uses mDNS to discover any _mqtt._tcp service on the local network, so no hardcoded hostname is needed. Once it finds the broker, it connects and publishes `{"temp": xx.xx, "hum": xx.xx}` to the topic room/sensor/data every 2 seconds
