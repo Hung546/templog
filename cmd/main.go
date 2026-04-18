@@ -14,7 +14,11 @@ import (
 func main() {
 	h := hub.New(60)
 
-	go sensor.ReadSerial(h, "/dev/ttyUSB0")
+	// usb port version
+	// go sensor.ReadSerial(h, "/dev/ttyUSB0")
+	
+	// wifi version
+	go sensor.ReadMQTT(h)
 
 	app := fiber.New(fiber.Config{
 		AppName: "templog",
